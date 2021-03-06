@@ -10,15 +10,11 @@ import org.openqa.selenium.chrome.ChromeDriver;
 public class DevToStepsDefinitions<webdriver> {
     WebDriver driver;
     @Before
-    public void setup()
-    {
+    public void setup() {
         System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver");
-    }
-    @Given("Brawser is open")
-    public void brawser_is_open() {
         driver=new ChromeDriver();
     }
-    @When("I go to devto mainpage")
+    @Given("I go to devto mainpage")
     public void i_go_to_devto_mainpage() {
         driver.get("https://dev.to/");
     }
