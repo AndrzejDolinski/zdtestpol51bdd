@@ -22,7 +22,7 @@ public class DevToStepsDefinitions<webdriver> {
     WebElement sendKeys;
     String firstBlogTitle;
     String firstCastTitle;
-    String searchBar;
+    String searchingPhrase;
     @Before
     public void setup(){
         System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver");
@@ -67,14 +67,15 @@ public class DevToStepsDefinitions<webdriver> {
         Assert.assertEquals(firstCastTitle, castTitleText);
     }
 
-    @When("I search for testing phrase")
-    public void i_search_for_testing_phrase() {
+    @When("I search for {string} phrase")
+    public void i_search_for_phrase(String phrase) {
         WebElement searchBar = driver.findElement(By.name("q"));
-        searchBar.sendKeys("testing");
+        searchBar.sendKeys(phrase);
+        searchingPhrase = phrase;
         searchBar.sendKeys(Keys.RETURN);
     }
-    @Then("Top {int} blogs found should have testing in title")
-    public void top_blogs_found_should_have_testing_in_title(Integer int1) {
+    @Then("Top {int} blogs found should have correct phrase in title")
+    public void top_blogs_found_should_have_correct_phrase_in_title(Integer int1) {
         // Write code here that turns the phrase above into concrete actions
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3.crayons-story__title"))); //h3
         wait.until(ExpectedConditions.attributeContains(By.id("substories"),"class","search-results-loaded"));
@@ -83,7 +84,7 @@ public class DevToStepsDefinitions<webdriver> {
             WebElement singlePost = allPosts.get(i);
             String singlePostTitle = singlePost.getText(); // a wyciagaj text
             System.out.println(singlePostTitle); //print
-            Boolean isTestingInTitle = singlePostTitle.contains("testing");
+            Boolean isTestingInTitle = singlePostTitle.contains(searchingPhrase);
             Assert.assertTrue(isTestingInTitle);
         }
     }
