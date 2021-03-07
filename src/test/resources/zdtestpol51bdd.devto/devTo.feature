@@ -10,5 +10,5 @@ Scenario: Open first seeing podcast
   Then I should be redirected to cast site
   Scenario: Search the phrase
     Given I go to devto mainpage
-    When I search for "testing" phrase
+    When I search for "python" phrase
     Then Top 3 blogs found should have correct phrase in title
