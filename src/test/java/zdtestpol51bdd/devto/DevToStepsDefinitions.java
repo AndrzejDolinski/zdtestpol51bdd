@@ -5,20 +5,24 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+
 import java.awt.*;
+import java.util.List;
 
 public class DevToStepsDefinitions<webdriver> {
     WebDriver driver;
     WebDriverWait wait;
+    WebElement sendKeys;
     String firstBlogTitle;
     String firstCastTitle;
+    String searchBar;
     @Before
     public void setup(){
         System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver");
@@ -62,4 +66,26 @@ public class DevToStepsDefinitions<webdriver> {
         String castTitleText = castTitle.getText();
         Assert.assertEquals(firstCastTitle, castTitleText);
     }
-}
+
+    @When("I search for testing phrase")
+    public void i_search_for_testing_phrase() {
+        WebElement searchBar = driver.findElement(By.name("q"));
+        searchBar.sendKeys("testing");
+        searchBar.sendKeys(Keys.RETURN);
+    }
+    @Then("Top {int} blogs found should have testing in title")
+    public void top_blogs_found_should_have_testing_in_title(Integer int1) {
+        // Write code here that turns the phrase above into concrete actions
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("h3.crayons-story__title"))); //h3
+        wait.until(ExpectedConditions.attributeContains(By.id("substories"),"class","search-results-loaded"));
+        List<WebElement> allPosts = driver.findElements(By.cssSelector(".crayons-story__title > a")); // a
+        for (int i=0;i<3;i++){
+            WebElement singlePost = allPosts.get(i);
+            String singlePostTitle = singlePost.getText(); // a wyciagaj text
+            System.out.println(singlePostTitle); //print
+            Boolean isTestingInTitle = singlePostTitle.contains("testing");
+            Assert.assertTrue(isTestingInTitle);
+        }
+    }
+    }
+
