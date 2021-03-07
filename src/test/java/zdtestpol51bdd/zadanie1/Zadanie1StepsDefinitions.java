@@ -6,19 +6,19 @@ import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Zadanie1StepsDefinitions <webdriver> {
     WebDriver driver;
+    WebDriverWait wait;
+
     @Before
     public void setup(){
         System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver");
         driver=new ChromeDriver();
     }
-    @Given("enter mainpage")
-    public void enter_mainpage() {
-        driver.get("https://dev.to/");
-    }
-    @When("I click on Sign In button")
+
+    @Given("I click on Sign In button")
     public void i_click_on_sign_in_button() {
         driver.findElement(By.cssSelector("crayons-link crayons-link--block fw-bold")).click();
     }
