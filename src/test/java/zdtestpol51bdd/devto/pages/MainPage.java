@@ -8,8 +8,16 @@ import org.openqa.selenium.support.PageFactory;
 public class MainPage {
     WebDriver driver;
     String url="https://dev.to";
+
     @FindBy(css = "h2.crayons-story__title > a")
     public WebElement firstBlog;
+
+    @FindBy(linkText = "Podcasts")
+    public WebElement podcastsBtn;
+
+    @FindBy(xpath = "//img[contains(@class,'pause-butt')]")
+    public WebElement pouseBtn;
+
     public MainPage(WebDriver driver){
         this.driver=driver;
         this.driver.get(url);
@@ -20,4 +28,10 @@ public class MainPage {
     public void selectFirstBlog(){
         firstBlog.click();
     }
+
+    public void goToPodcastSection(){
+        podcastsBtn.click();
+    }
+
+
 }

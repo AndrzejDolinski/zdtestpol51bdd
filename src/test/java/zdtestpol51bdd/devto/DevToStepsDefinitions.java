@@ -13,7 +13,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import zdtestpol51bdd.devto.pages.MainPage;
+import zdtestpol51bdd.devto.pages.PodcastListPage;
 import zdtestpol51bdd.devto.pages.SingleBlogPage;
+import zdtestpol51bdd.devto.pages.SinglePodcastPage;
 
 
 import java.util.List;
@@ -27,6 +29,8 @@ public class DevToStepsDefinitions<webdriver> {
     String searchingPhrase;
     MainPage mainPage;
     SingleBlogPage singleBlogPage;
+    PodcastListPage podcastListPage;
+    SinglePodcastPage singlePodcastPage;
 
     @Before
     public void setup() {
@@ -62,32 +66,36 @@ public class DevToStepsDefinitions<webdriver> {
 
     @When("I go to podcast section")
     public void i_go_to_podcast_section() {
-        WebElement podcast = driver.findElement(By.linkText("Podcasts"));
-        podcast.click();
+//        WebElement podcast = driver.findElement(By.linkText("Podcasts"));
+        mainPage.goToPodcastSection();
     }
 
     @When("I click on first podcast on the list")
     public void i_click_on_first_podcast_on_the_list() {
         wait.until(ExpectedConditions.titleContains("Podcasts"));
-        WebElement firstCast = driver.findElement(By.tagName("h3"));
-        firstCastTitle = firstCast.getText();
+//        WebElement firstCast = driver.findElement(By.tagName("h3"));
+        podcastListPage = new PodcastListPage(driver);
+        firstCastTitle = podcastListPage.firstCast.getText();
         firstCastTitle = firstCastTitle.replace("podcast", "");
-        firstCast.click();
+        podcastListPage.selectFirstPodcast();
     }
 
     @When("I play the podcast")
     public void i_play_the_podcast() {
         // Write code here that turns the phrase above into concrete actions
         wait.until(ExpectedConditions.titleContains(firstCastTitle));
-        WebElement playButton = driver.findElement(By.id("record"));
-        playButton.click();
+//        WebElement playButton = driver.findElement(By.id("record"));
+        singlePodcastPage=new SinglePodcastPage(driver);
+        singlePodcastPage.playThePodcast();
+
+
     }
     @Then("Podcast Should be played")
     public void podcast_should_be_played() {
-        WebElement initializing = driver.findElement(By.className("status-message"));
-        wait.until(ExpectedConditions.invisibilityOf(initializing));
-        WebElement pauseBtn = driver.findElement(By.xpath("//img[contains(@class,'pause-butt')]"));
-        Boolean isPauseBtnVisible = pauseBtn.isDisplayed();
+//        WebElement initializing = driver.findElement(By.className("status-message"));
+        wait.until(ExpectedConditions.invisibilityOf(singlePodcastPage.initializing));
+//        WebElement pauseBtn = driver.findElement(By.xpath("//img[contains(@class,'pause-butt')]"));
+        Boolean isPauseBtnVisible = singlePodcastPage.pauseBtn.isDisplayed();
         Assert.assertTrue(isPauseBtnVisible);
     }
 
