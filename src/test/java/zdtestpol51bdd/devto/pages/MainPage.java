@@ -25,8 +25,9 @@ public class MainPage {
 
     }
 
-    public void selectFirstBlog(){
+    public SingleBlogPage selectFirstBlog(){
         firstBlog.click();
+        return new SingleBlogPage(this.driver);
     }
 
     public void goToPodcastSection(){

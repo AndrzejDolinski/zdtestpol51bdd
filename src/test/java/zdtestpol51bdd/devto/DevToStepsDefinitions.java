@@ -48,12 +48,10 @@ public class DevToStepsDefinitions<webdriver> {
 
     @When("I click on first blog displayed")
     public void i_click_on_first_blog_displayed() {
-//        WebElement firstBlog = driver.findElement(By.cssSelector("h2.crayons-story__title > a"));
-        mainPage.firstBlog.getText();
         firstBlogTitle = mainPage.firstBlog.getText();
-//        mainPage.firstBlog.click();
-        mainPage.selectFirstBlog();
+        singleBlogPage = mainPage.selectFirstBlog();
     }
+
 
     @Then("I should be redirected to blog page")
     public void i_should_be_redirected_to_blog_page() {
