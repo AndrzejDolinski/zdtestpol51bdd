@@ -12,9 +12,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import zdtestpol51bdd.devto.pages.MainPage;
+import zdtestpol51bdd.devto.pages.SingleBlogPage;
 
 
-import java.awt.*;
 import java.util.List;
 
 public class DevToStepsDefinitions<webdriver> {
@@ -24,6 +25,8 @@ public class DevToStepsDefinitions<webdriver> {
     String firstBlogTitle;
     String firstCastTitle;
     String searchingPhrase;
+    MainPage mainPage;
+    SingleBlogPage singleBlogPage;
 
     @Before
     public void setup() {
@@ -34,21 +37,26 @@ public class DevToStepsDefinitions<webdriver> {
 
     @Given("I go to devto mainpage")
     public void i_go_to_devto_mainpage() {
-        driver.get("https://dev.to");
+//        driver.get("https://dev.to");
+      mainPage = new MainPage (driver);
+
     }
 
     @When("I click on first blog displayed")
     public void i_click_on_first_blog_displayed() {
-        WebElement firstBlog = driver.findElement(By.cssSelector("h2.crayons-story__title > a"));
-        firstBlogTitle = firstBlog.getText();
-        firstBlog.click();
+//        WebElement firstBlog = driver.findElement(By.cssSelector("h2.crayons-story__title > a"));
+        mainPage.firstBlog.getText();
+        firstBlogTitle = mainPage.firstBlog.getText();
+//        mainPage.firstBlog.click();
+        mainPage.selectFirstBlog();
     }
 
     @Then("I should be redirected to blog page")
     public void i_should_be_redirected_to_blog_page() {
         wait.until(ExpectedConditions.titleContains(firstBlogTitle));
-        WebElement blogTitle = driver.findElement(By.tagName("h1"));
-        String blogTitleText = blogTitle.getText();
+//        WebElement blogTitle = driver.findElement(By.tagName("h1"));
+        singleBlogPage = new SingleBlogPage(driver);
+        String blogTitleText = singleBlogPage.blogTitle.getText();
         Assert.assertEquals(firstBlogTitle, blogTitleText);
     }
 
