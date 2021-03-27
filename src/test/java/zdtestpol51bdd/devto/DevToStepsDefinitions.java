@@ -1,4 +1,5 @@
 package zdtestpol51bdd.devto;
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -28,7 +29,7 @@ public class DevToStepsDefinitions<webdriver> {
     public void setup() {
         System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, 10);
+        wait = new WebDriverWait(driver, 20);
     }
 
     @Given("I go to devto mainpage")
@@ -81,7 +82,7 @@ public class DevToStepsDefinitions<webdriver> {
         Boolean isPauseBtnVisible = pauseBtn.isDisplayed();
         Assert.assertTrue(isPauseBtnVisible);
     }
-        // Write code here that turns the phrase above into concrete actions
+
 
         //@Then("I should be redirected to cast site")
         //public void i_should_be_redirected_to_cast_site() {
@@ -122,5 +123,10 @@ public class DevToStepsDefinitions<webdriver> {
                 }
             }
         }
+        @After
+        public void tearDown() {
+        driver.quit();
+        }
+
     }
 
